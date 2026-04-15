@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Full Stack Page</title>
+  <style>
+    body { font-family: Arial; text-align: center; margin-top: 100px; background-color: #f4f4f9; }
+    button { 
+      padding: 10px 20px; font-size: 16px; background-color: #007bff; 
+      color: white; border: none; border-radius: 5px; cursor: pointer; 
+    }
+    button:hover { background-color: #0056b3; }
+    #output { margin-top: 20px; font-size: 18px; color: #28a745; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h1>Frontend + Python Backend</h1>
+  <button onclick="getMessage()">Get Message</button>
+  <div id="output"></div>
+
+  <script>
+    function getMessage() {
+      const outputDiv = document.getElementById("output");
+      outputDiv.innerText = "Connecting...";
+
+      fetch("https://retrace-zoologist-reclining.ngrok-free.dev/api/message", {
+        headers: {
+          // This header bypasses the ngrok warning page
+          "ngrok-skip-browser-warning": "69420"
+        }
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Network response was not ok");
+        return response.json();
+      })
+      .then(data => {
+        outputDiv.innerText = data.text;
+      })
+      .catch(error => {
+        outputDiv.innerText = "Error connecting backend!";
+        outputDiv.style.color = "red";
+        console.error("Fetch error:", error);
+      });
+    }
+  </script>
+
+</body>
+</html>
